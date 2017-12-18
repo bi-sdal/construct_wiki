@@ -1,26 +1,69 @@
 def_meta_box_UI <- function(id) {
     ns <- NS(id)
 
-    fluidRow(
-        box(
-            'hello',
-            title = "Definition",
-            solidHeader = TRUE,
-            collapsible = FALSE,
-            collapsed = FALSE,
-            status = 'warning'
-        ),
-        box(
-            'world',
-            title = "Metadata",
-            solidHeader = TRUE,
-            collapsible = TRUE,
-            collapsed = TRUE,
-            status = 'danger'
-        )
-    )
+    lapply(1:10, function(i) {
+        uiOutput(ns(paste0('def', i)))
+    })
 }
 
-def_meta_box <- function(input, output, session) {
+def_meta_box <- function(input, output, session, df_react, def_count_react) {
 
+    observeEvent(def_count_react(), {
+        print(sprintf('num def: %s', def_count_react()))
+
+        lapply(1:def_count_react(), function(i) {
+            output[[paste0('def', i)]] <- renderUI({
+                session$ns(paste0('def', i))
+
+                fluidRow(
+                    box(
+                        df_react()$definition[i],
+                        title = "Definition",
+                        solidHeader = TRUE,
+                        collapsible = FALSE,
+                        collapsed = FALSE,
+                        status = 'warning'
+                    ),
+                    box(
+                        h3("Neighboring Construct(s)"),
+
+                        p(str_to_title(unique(neighbors(.GlobalEnv$G, input$construct_name, mode = 'all')$name))),
+
+                        h3("Field(s) of study"),
+
+                        p(df_react()$field[i]),
+
+                        h3("Funded by military?"),
+
+                        p(df_react()$military[i]),
+
+                        h3("Empirical study..."),
+
+                        h4("Target population"),
+
+                        p(df_react()$population[i]),
+
+                        h4("Type of measurement"),
+
+                        p(df_react()$measurement[i]),
+
+                        h4("Instrument used"),
+
+                        p(df_react()$instrument[i]),
+
+                        h4("Additional Notes"),
+
+                        p(df_react()$notes),
+
+                        # a(md_text$display_name, href = md_text$url, target = "_blank"),
+                        title = "Metadata",
+                        solidHeader = TRUE,
+                        collapsible = TRUE,
+                        collapsed = TRUE,
+                        status = 'danger'
+                    )
+                )
+            })
+        })
+    })
 }

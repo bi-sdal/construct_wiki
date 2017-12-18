@@ -1,5 +1,13 @@
 library(shiny)
 
+# helpful
+# https://gist.github.com/tbadams45/38f1f56e0f2d7ced3507ef11b0a2fdce
+# https://www.rstudio.com/resources/webinars/understanding-shiny-modules/
+# https://gist.github.com/bborgesr/e1ce7305f914f9ca762c69509dda632e
+# https://stackoverflow.com/questions/21636023/r-shiny-simple-reactive-issue
+# http://shiny.leg.ufpr.br/daniel/025-loop-ui/
+# https://shiny.rstudio.com/gallery/creating-a-ui-from-a-loop.html
+
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
 
@@ -16,11 +24,12 @@ shinyServer(function(input, output, session) {
     })
 
     definition_selected_df <- reactive({
-        .GlobalEnv$constructs[.GlobalEnv$constructs$construct == definition_selected(), ]
+        df <- .GlobalEnv$constructs[.GlobalEnv$constructs$construct == definition_selected(), ]
+        return(df)
     })
 
     definition_num <- reactive({
-        nrow(definition_selected_df())
+        return(nrow(definition_selected_df()))
     })
 
     output$definition_count_text <- renderText({
@@ -43,6 +52,8 @@ shinyServer(function(input, output, session) {
         # .GlobalEnv$def_meta_boxes(construct_row_dat, def_count_text)
 
     })
+
+    callModule(def_meta_box, 'defs', definition_selected_df, definition_num)
 
     output$construct_dt <- DT::renderDataTable({
         .GlobalEnv$constructs

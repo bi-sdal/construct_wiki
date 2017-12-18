@@ -37,8 +37,7 @@ dashboardPage(
                              sep = ' ')),
                      selectizeInput('construct_name', 'Construct Name', sort(.GlobalEnv$construct_values)),
                      p(textOutput('definition_count_text')),
-                     def_meta_box_UI('one'),
-                     def_meta_box_UI('two')
+                     def_meta_box_UI('defs')
                      # uiOutput('construct_definition')
             ),
             tabPanel("Data",
