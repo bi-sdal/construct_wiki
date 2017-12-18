@@ -6,9 +6,9 @@ def_meta_box_UI <- function(id) {
     })
 }
 
-def_meta_box <- function(input, output, session, df_react, def_count_react) {
+def_meta_box <- function(input, output, session, construct_selected, df_react, def_count_react) {
 
-    observeEvent(def_count_react(), {
+    observeEvent(construct_selected(), {
         print(sprintf('num def: %s', def_count_react()))
 
         lapply(1:def_count_react(), function(i) {
@@ -27,7 +27,7 @@ def_meta_box <- function(input, output, session, df_react, def_count_react) {
                     box(
                         h3("Neighboring Construct(s)"),
 
-                        p(str_to_title(unique(neighbors(.GlobalEnv$G, input$construct_name, mode = 'all')$name))),
+                        p(str_to_title(unique(neighbors(.GlobalEnv$G, construct_selected(), mode = 'all')$name))),
 
                         h3("Field(s) of study"),
 
@@ -59,7 +59,7 @@ def_meta_box <- function(input, output, session, df_react, def_count_react) {
                         title = "Metadata",
                         solidHeader = TRUE,
                         collapsible = TRUE,
-                        collapsed = TRUE,
+                        collapsed = FALSE,
                         status = 'danger'
                     )
                 )

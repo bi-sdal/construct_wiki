@@ -53,7 +53,7 @@ shinyServer(function(input, output, session) {
 
     })
 
-    callModule(def_meta_box, 'defs', definition_selected_df, definition_num)
+    callModule(def_meta_box, 'defs', definition_selected, definition_selected_df, definition_num)
 
     output$construct_dt <- DT::renderDataTable({
         .GlobalEnv$constructs
