@@ -11,16 +11,36 @@ shinyServer(function(input, output, session) {
             visLayout(randomSeed = 42)
     })
 
+    definition_selected <- reactive({
+        input$construct_name
+    })
+
+    definition_selected_df <- reactive({
+        .GlobalEnv$constructs[.GlobalEnv$constructs$construct == definition_selected(), ]
+    })
+
+    definition_num <- reactive({
+        nrow(definition_selected_df())
+    })
+
+    output$definition_count_text <- renderText({
+        if (definition_num() == 1) {
+            return(sprintf('Definition count: %s', definition_num()))
+        } else {
+            return(sprintf('Definitions count: %s', definition_num()))
+        }
+    })
+
     output$construct_definition <- renderUI({
         # md_text <- .GlobalEnv$parse_md_a('[A document](https://drive.google.com/open?id=0B7onm2yXv1-wX2FJVkxVUUZ3a2c)')
         # print(sprintf('selected: %s', input$construct_name))
-        construct_row_dat <- .GlobalEnv$constructs[.GlobalEnv$constructs$construct == input$construct_name, ]
+        # construct_row_dat <- .GlobalEnv$constructs[.GlobalEnv$constructs$construct == input$construct_name, ]
 
-        def_count_text <- if_else(nrow(construct_row_dat) == 1,
-                                  sprintf("There is %s definition for this construct", nrow(construct_row_dat)),
-                                  sprintf("There are %s definitions for this construct", nrow(construct_row_dat)))
+        # def_count_text <- if_else(nrow(construct_row_dat) == 1,
+        #                           sprintf("There is %s definition for this construct", nrow(construct_row_dat)),
+        #                           sprintf("There are %s definitions for this construct", nrow(construct_row_dat)))
 
-        .GlobalEnv$def_meta_boxes(construct_row_dat, def_count_text)
+        # .GlobalEnv$def_meta_boxes(construct_row_dat, def_count_text)
 
     })
 

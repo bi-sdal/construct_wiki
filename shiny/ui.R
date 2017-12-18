@@ -36,7 +36,10 @@ dashboardPage(
                      p(paste("Here you can select a specific construct and see the definition and more details.",
                              sep = ' ')),
                      selectizeInput('construct_name', 'Construct Name', sort(.GlobalEnv$construct_values)),
-                     uiOutput('construct_definition')
+                     p(textOutput('definition_count_text')),
+                     def_meta_box_UI('one'),
+                     def_meta_box_UI('two')
+                     # uiOutput('construct_definition')
             ),
             tabPanel("Data",
                      DT::dataTableOutput('construct_dt')
