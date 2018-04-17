@@ -10,23 +10,14 @@ dashboardPage(
                      fluidPage(
                          fluidRow(
                              h1("Construct Network Visualization"),
-                             p(paste("Here you will find all the constructs and their relations to one another.",
-                                     sep = ' ')),
-                             p(paste("Hovering over a node will display the definition of the construct",
-                                     sep = ' ')),
-                             p("Multiple edges refer to multiple definitions for the construct"),
-                             p("Zoom in to see the labels.")
-                         ),
-                         fluidRow(
-                             column(10,
-                                    visNetworkOutput("vis_network", width = "100%", height = "800px")),
-                             column(2,
-                                    radioButtons("radio_data", label = 'Dataset',
-                                                 choices = list("Adjusted" = .GlobalEnv$ADJUSTED_DATA,
-                                                                "Original" = .GlobalEnv$ORIGINAL_DATA
-                                                 ),
-                                                 selected = .GlobalEnv$ADJUSTED_DATA
-                                    ),
+                             column(6,
+                                    p(paste("Here you will find all the constructs and their relations to one another.",
+                                            sep = ' ')),
+                                    p(paste("Hovering over a node will display the definition of the construct",
+                                            sep = ' ')),
+                                    p("Multiple edges refer to multiple definitions for the construct"),
+                                    p("Zoom in to see the labels.")),
+                             column(6,
                                     p(paste(
                                         "You can click the edit button to modify and explore the network directly (without)",
                                         "changing the underlying data structure.",
@@ -34,7 +25,19 @@ dashboardPage(
                                         "how the networks change.",
                                         sep = ' '
                                     )),
-                                    p("Double-cliking nodes will collapse all connections."))
+                                    p("Double-cliking nodes will collapse all connections.")))
+                         ),
+                         fluidRow(
+                             column(10,
+                                    visNetworkOutput("vis_network", width = "100%", height = "800px"),
+                                    style = 'border:1px solid;'),
+                             column(2,
+                                    radioButtons("radio_data", label = 'Dataset',
+                                                 choices = list("Adjusted" = .GlobalEnv$ADJUSTED_DATA,
+                                                                "Original" = .GlobalEnv$ORIGINAL_DATA
+                                                 ),
+                                                 selected = .GlobalEnv$ADJUSTED_DATA
+                                    )
                          )
                      )
             ),
