@@ -14,12 +14,19 @@ dashboardPage(
                                      sep = ' ')),
                              p(paste("Hovering over a node will display the definition of the construct",
                                      sep = ' ')),
-                             p("Multiple edges refer to multiple definitions for the construct")
+                             p("Multiple edges refer to multiple definitions for the construct"),
+                             p("Zoom in to see the labels.")
                          ),
                          fluidRow(
                              column(10,
                                     visNetworkOutput("vis_network", width = "100%", height = "800px")),
                              column(2,
+                                    radioButtons("radio_data", label = 'Dataset',
+                                                 choices = list("Adjusted" = .GlobalEnv$ADJUSTED_DATA,
+                                                                "Original" = .GlobalEnv$ORIGINAL_DATA
+                                                 ),
+                                                 selected = .GlobalEnv$ADJUSTED_DATA
+                                    ),
                                     p(paste(
                                         "You can click the edit button to modify and explore the network directly (without)",
                                         "changing the underlying data structure.",
@@ -36,7 +43,7 @@ dashboardPage(
                      p(paste("Here you can select a specific construct and see the definition and more details.",
                              sep = ' ')),
                      uiOutput('construction_selection'),
-                     uiOutput('construct_definition')
+                     DT::dataTableOutput('construct_definition_dt')
             ),
             tabPanel("Data",
                      DT::dataTableOutput('construct_dt')
