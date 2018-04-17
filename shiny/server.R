@@ -52,7 +52,7 @@ shinyServer(function(input, output, session) {
     })
 
     output$construction_selection <- renderUI({
-        selectizeInput('construct_name', 'Construct Name', sort(construct_values()), multiple = TRUE)
+        selectizeInput('construct_name', 'Select Construct(s)', sort(construct_values()), multiple = TRUE)
     })
 
     construct_row_dat <- reactive({
