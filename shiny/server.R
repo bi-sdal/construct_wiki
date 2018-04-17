@@ -52,11 +52,11 @@ shinyServer(function(input, output, session) {
     })
 
     output$construction_selection <- renderUI({
-        selectizeInput('construct_name', 'Construct Name', sort(construct_values()))
+        selectizeInput('construct_name', 'Construct Name', sort(construct_values()), multiple = TRUE)
     })
 
     construct_row_dat <- reactive({
-        construct_row_dat <- constructs()[constructs()$construct == input$construct_name, ]
+        construct_row_dat <- constructs()[constructs()$construct %in% input$construct_name, ]
         print(construct_row_dat)
         return(construct_row_dat)
     })
@@ -68,7 +68,7 @@ shinyServer(function(input, output, session) {
     })
 
     output$construct_definition_dt <- DT::renderDataTable({
-        construct_row_dat()[, c('definition', 'field', 'military', 'population', 'measurement', 'instrument', 'notes')]
+        construct_row_dat()[, c('construct', 'definition', 'field', 'military', 'population', 'measurement', 'instrument', 'notes')]
     },
     extensions = c('Responsive', 'Buttons'),
     options = list(pageLength = num_defs(),
