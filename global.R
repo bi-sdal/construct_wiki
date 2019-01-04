@@ -8,7 +8,7 @@ library(igraph)
 library(shinydashboard)
 library(here)
 
-print(R.utils::sourceDirectory(here('shiny', 'functions')))
+print(R.utils::sourceDirectory(here('functions')))
 # print(R.utils::sourceDirectory(here('shiny', 'modules')))
 
 ORIGINAL_DATA <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2imOgIzmv8ayb7rDrvVySZ0vFDGNULSGNgT5ObdXOyEEnrok-JlW4MP0jWNSJl1aP_UuKgVDsFZer/pub?gid=432933410&single=true&output=tsv'
