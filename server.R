@@ -56,8 +56,13 @@ shinyServer(function(input, output, session) {
     })
 
     construct_row_dat <- reactive({
-        construct_row_dat <- constructs()[constructs()$construct %in% input$construct_name, ]
+        construct_row_dat <- constructs()[constructs()$construct %in% input$construct_name,
+                                          c('construct', 'definition', 'field', 'military',
+                                            'population', 'measurement', 'instrument', 'notes')]
         print(construct_row_dat)
+        print('returning construct_row_dat')
+        print('type')
+        print(class(construct_row_dat))
         return(construct_row_dat)
     })
 
@@ -68,13 +73,13 @@ shinyServer(function(input, output, session) {
     })
 
     output$construct_definition_dt <- DT::renderDataTable({
-        construct_row_dat()[, c('construct', 'definition', 'field', 'military', 'population', 'measurement', 'instrument', 'notes')]
+        construct_row_dat()
     },
     extensions = c('Responsive', 'Buttons'),
-    options = list(pageLength = num_defs(),
+    options = list(pageLength = -1,
                    #lengthMenu = c(5, 10, 15, 20, 50, 100, nrow(.GlobalEnv$constructs())),
-                   colReorder = TRUE,
-                   fixedHeader = TRUE,
+                   #colReorder = TRUE,
+                   #fixedHeader = TRUE,
                    dom = 'Bt'
     )
     )
@@ -83,8 +88,9 @@ shinyServer(function(input, output, session) {
         constructs()
     },
     extensions = 'Responsive',
-    options = list(pageLength = num_defs(),
-                   lengthMenu = c(5, 10, 15, 20, 50, 100, num_defs()),
-                   colReorder = TRUE,
-                   fixedHeader = TRUE))
+    options = list(pageLength = -1#,
+                   #lengthMenu = c(5, 10, 15, 20, 50, 100, num_defs()),
+                   #colReorder = TRUE,
+                   #fixedHeader = TRUE
+                   ))
 })
